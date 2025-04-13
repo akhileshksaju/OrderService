@@ -9,9 +9,16 @@ import com.aksprojects.order_service.DTO.OrderLineItemDTO;
 import com.aksprojects.order_service.DTO.OrderRequest;
 import com.aksprojects.order_service.Model.Order;
 import com.aksprojects.order_service.Model.OrderLineItem;
+import com.aksprojects.order_service.Repository.OrderRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class OderService {
+@RequiredArgsConstructor
+public class OrderService {
+
+  
+  private final OrderRepository orderRepository;
 
   public void placeOrder(OrderRequest orderRequest){
     Order order = new Order();
@@ -20,6 +27,7 @@ public class OderService {
     List<OrderLineItem> orderLineItems =  orderRequest.getOrderLineItems().stream().map(this::mapToDto).toList();
 
     order.setOrderLineItemsList(orderLineItems);
+    orderRepository.save(order);
 
   }
 
